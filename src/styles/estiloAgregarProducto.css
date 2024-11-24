@@ -1,0 +1,74 @@
+/* Estilos para el contenedor del formulario */
+.containerFormulario {
+  width: 90%;
+  max-width: 50%;
+  margin: 60px auto;
+  background-color: white;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Título del formulario */
+.containerFormulario h1 {
+  font-size: 36px;
+  color: #961a01;
+  margin-bottom: 20px;
+}
+
+/* Estilos para los campos de entrada */
+.containerFormulario input {
+  width: 90%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+/* Borde destacado al enfocar */
+.containerFormulario input:focus {
+  border-color: #961a01;
+  outline: none;
+}
+
+/* Estilo del botón */
+.containerFormulario button {
+  background-color: #961a01;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 18px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover en botón */
+.containerFormulario button:hover {
+  background-color: #0056b3;
+}
+
+/* Estilos para etiquetas (si se agregan) */
+.containerFormulario label {
+  display: block;
+  text-align: left;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+/* Ajuste para pantallas pequeñas */
+@media (max-width: 768px) {
+  .containerFormulario {
+      padding: 20px;
+  }
+
+  .containerFormulario h1 {
+      font-size: 28px;
+  }
+}

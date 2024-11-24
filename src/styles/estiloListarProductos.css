@@ -1,0 +1,84 @@
+/* Estilos generales del contenedor */
+.containerListar {
+    width: 100%;
+    max-width: auto;
+    margin: 50px auto;
+    background-color: white;
+    border-radius: 10px;
+    padding: 40px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  /* Título */
+  .containerListar h1 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 32px;
+  }
+  
+  /* Grid de productos */
+  .productos-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas fijas */
+    gap: 20px;
+  }
+  
+  /* Cada ítem de producto */
+  .producto-item {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: transform 0.3s;
+  }
+  
+  .producto-item:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* Títulos de producto */
+  .producto-item h3 {
+    color: #961a01; /* Color de acento */
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  /* Detalles del producto */
+  .producto-item p {
+    font-size: 16px;
+    color: #555;
+    margin: 8px 0;
+  }
+  
+  /* Asegura que el precio sea más visible */
+  .producto-item p strong {
+    color: #333;
+  }
+
+  /* Grid de productos */
+.productos-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas */
+    gap: 20px;
+  }
+  
+  /* Ajuste para pantallas más pequeñas */
+  @media (max-width: 992px) {
+    .productos-grid {
+      grid-template-columns: repeat(3, 1fr); /* 3 columnas */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .productos-grid {
+      grid-template-columns: repeat(2, 1fr); /* 2 columnas */
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .productos-grid {
+      grid-template-columns: 1fr; /* 1 columna */
+    }
+  }
