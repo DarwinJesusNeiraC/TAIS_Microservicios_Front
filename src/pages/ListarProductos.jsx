@@ -35,6 +35,12 @@ function ListarProductos() {
             <p><strong>Cantidad:</strong> {producto.cantidad}</p>
             <p><strong>Precio:</strong> ${producto.precio}</p>
             <p><strong>Categoría:</strong> {producto.categoria}</p>
+            <button
+              className="btn-gestionar"
+              onClick={() => window.location.href = `/producto/${producto.codigo}`}
+            >
+              Gestionar Producto
+            </button>
           </div>
         ))}
       </div>
