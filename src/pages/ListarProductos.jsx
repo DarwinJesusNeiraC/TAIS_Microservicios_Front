@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/estiloListarProductos.css'; // Crear este archivo para estilos
 import Navbar from '../components/Navbar';
+import { useNavigate } from 'react-router-dom';
+import config from '../config'; // Importar la configuración
 
 function ListarProductos() {
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true); // Para manejar el estado de carga
   const [error, setError] = useState(null); // Para manejar errores
+  const navigate = useNavigate();
+
 
   // Simulación de carga de datos del backend
   useEffect(() => {
     const fetchProductos = async () => {
       try {
         // Realiza la llamada al backend para obtener los productos
-        const response = await fetch('http://localhost:5000/productos'); // Asegúrate de que el endpoint sea correcto
+        const response = await fetch(`${config.API_BASE_URL}/productos`); // Asegúrate de que el endpoint sea correcto
         if (!response.ok) {
           throw new Error('Error al obtener los productos');
         }
@@ -53,7 +57,16 @@ function ListarProductos() {
             <p><strong>Categoría:</strong> {producto.categoria}</p>
             <button
               className="btn-gestionar"
-              onClick={() => window.location.href = `/producto/${producto.codigo}`}
+              //onClick={() => window.location.href = `/producto/${producto.codigo}`}
+              //onClick={() => window.location.href = `/producto/${producto.codigo}?opcion=agregar&cantidad=${producto.cantidad}`}
+              onClick={() =>
+                navigate(`/modificar-producto/${producto.codigo}`, 
+                  { state: 
+                    { 
+                      producto 
+                    } 
+                  })
+              }
             >
               Gestionar Producto
             </button>
