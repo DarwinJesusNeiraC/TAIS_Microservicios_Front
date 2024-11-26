@@ -4,7 +4,6 @@ import Navbar from '../components/Navbar';
 
 function ListarProductos() {
   const [productos, setProductos] = useState([]);
-  const [productoSeleccionado, setProductoSeleccionado] = useState(null); // Producto seleccionado para el modal
   const [loading, setLoading] = useState(true); // Para manejar el estado de carga
   const [error, setError] = useState(null); // Para manejar errores
 
