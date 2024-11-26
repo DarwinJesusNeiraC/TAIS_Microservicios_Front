@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/estiloAgregarProducto.css';
-import Navbar from '../components/Navbar'; 
+import Navbar from '../components/Navbar';
 
 function AgregarProducto() {
   const [producto, setProducto] = useState({
@@ -23,21 +23,38 @@ function AgregarProducto() {
   };
 
   return (
-
     <div className="containerFormulario">
-
-    <Navbar />
-
-      <h1>Agregar Producto</h1>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="codigo" placeholder="Código" onChange={handleChange} required />
-        <input type="text" name="nombre" placeholder="Nombre" onChange={handleChange} required />
-        <input type="text" name="descripcion" placeholder="Descripción" onChange={handleChange} required />
-        <input type="number" name="cantidad" placeholder="Cantidad" onChange={handleChange} required />
-        <input type="number" name="precio" placeholder="Precio" onChange={handleChange} required />
-        <input type="text" name="categoria" placeholder="Categoría" onChange={handleChange} required />
-        <button type="submit">Agregar Producto</button>
-      </form>
+      <Navbar />
+      <div className="form-container">
+        <h1>Agregar Producto</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="code">Código</label>
+            <input type="text" id="code" name="code" onChange={handleChange} required />
+          </div>
+          <div className="form-group">
+            <label htmlFor="name">Nombre</label>
+            <input type="text" id="name" name="name" onChange={handleChange} required />
+          </div>
+          <div className="form-group">
+            <label htmlFor="description">Descripción</label>
+            <input type="text" id="description" name="description" onChange={handleChange} required />
+          </div>
+          <div className="form-group">
+            <label htmlFor="amount">Cantidad</label>
+            <input type="number" id="amount" name="amount" onChange={handleChange} required />
+          </div>
+          <div className="form-group">
+            <label htmlFor="price">Precio</label>
+            <input type="number" id="price" name="price" onChange={handleChange} required />
+          </div>
+          <div className="form-group">
+            <label htmlFor="category">Categoría</label>
+            <input type="text" id="category" name="category" onChange={handleChange} required />
+          </div>
+          <button type="submit" className="btn-submit">Agregar Producto</button>
+        </form>
+      </div>
     </div>
   );
 }
