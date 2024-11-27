@@ -10,10 +10,11 @@ function AgregarProducto() {
     descripcion: '',
     cantidad: '',
     precio_unitario: '',
-    categoria: ''
+    categoria: '',
   });
 
   const [errors, setErrors] = useState({});
+  const [successMessage, setSuccessMessage] = useState(null); // Mensaje de éxito
 
   const validateField = (name, value) => {
     let error = '';
@@ -38,7 +39,7 @@ function AgregarProducto() {
     // Validar el campo y actualizar errores
     const error = validateField(name, value);
     setErrors({ ...errors, [name]: error });
-    setProducto({ ...producto, [e.target.name]: e.target.value });
+    setProducto({ ...producto, [name]: value });
   };
 
   const validateForm = () => {
@@ -53,7 +54,6 @@ function AgregarProducto() {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Enviar datos al backend
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -61,13 +61,15 @@ function AgregarProducto() {
       alert('Por favor corrige los errores antes de enviar.');
       return;
     }
+
     const productoFinal = {
       ...producto,
       cantidad: parseInt(producto.cantidad, 10), // Convertir cantidad a entero
       precio_unitario: parseFloat(producto.precio_unitario), // Convertir precio_unitario a número decimal
     };
+
     try {
-      const response = await fetch(`${config.API_BASE_URL}/productos`, { // url
+      const response = await fetch(`${config.API_BASE_URL}/productos`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -75,30 +77,24 @@ function AgregarProducto() {
         body: JSON.stringify(productoFinal),
       });
 
-      if (response.ok) {
-        const result = await response.json();
-        console.log('Producto creado exitosamente:', result);
-        // Opcional: limpiar el formulario
-        setProducto({
-          codigo: '',
-          nombre: '',
-          descripcion: '',
-          cantidad: '',
-          precio_unitario: '',
-          categoria: ''
-        });
-        setErrors({});
-        alert('Producto agregado con éxito!');
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        const { message, product } = result.data;
+
+        // Mostrar mensaje de éxito
+        setSuccessMessage(message);
+
+        console.log('Producto creado:', product);
+        alert(message);
+        navigate('/listar-productos');
       } else if (response.status === 400) {
-        const errorData = await response.json();
-        console.error('Error 400:', errorData.error);
+        console.error('Error 400: Datos inválidos.');
         alert('Error: Datos inválidos. Por favor revisa los campos.');
       } else if (response.status === 409) {
-        const errorData = await response.json();
-        console.error('Error 409:', errorData.error);
-        alert('Error: El código del producto ya existe. Por favor usa uno diferente.');
-      }
-      else {
+        console.error('Error 409: Código duplicado.');
+        alert('Error: El código del producto ya existe. Usa uno diferente.');
+      } else {
         console.error('Error al crear el producto:', response.statusText);
         alert('Error al agregar el producto.');
       }
@@ -113,34 +109,79 @@ function AgregarProducto() {
       <Navbar />
       <div className="form-container">
         <h1>Agregar Producto</h1>
+        {successMessage && <div className="success-message">{successMessage}</div>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="code">Código</label>
-            <input type="text" id="codigo" name="codigo" onChange={handleChange} required />
+            <input
+              type="text"
+              id="codigo"
+              name="codigo"
+              value={producto.codigo}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="form-group">
             <label htmlFor="name">Nombre</label>
-            <input type="text" id="nombre" name="nombre" onChange={handleChange} required />
+            <input
+              type="text"
+              id="nombre"
+              name="nombre"
+              value={producto.nombre}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="form-group">
             <label htmlFor="description">Descripción</label>
-            <input type="text" id="descripcion" name="descripcion" onChange={handleChange} required />
+            <input
+              type="text"
+              id="descripcion"
+              name="descripcion"
+              value={producto.descripcion}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="form-group">
             <label htmlFor="amount">Cantidad</label>
-            <input type="number" id="cantidad" name="cantidad" onChange={handleChange} required />
+            <input
+              type="number"
+              id="cantidad"
+              name="cantidad"
+              value={producto.cantidad}
+              onChange={handleChange}
+              required
+            />
             {errors.cantidad && <span className="error-message">{errors.cantidad}</span>}
           </div>
           <div className="form-group">
             <label htmlFor="price">Precio Unitario</label>
-            <input type="number" id="precio_unitario" name="precio_unitario" onChange={handleChange} required />
+            <input
+              type="number"
+              id="precio_unitario"
+              name="precio_unitario"
+              value={producto.precio_unitario}
+              onChange={handleChange}
+              required
+            />
             {errors.precio_unitario && <span className="error-message">{errors.precio_unitario}</span>}
           </div>
           <div className="form-group">
             <label htmlFor="category">Categoría</label>
-            <input type="text" id="categoria" name="categoria" onChange={handleChange} required />
+            <input
+              type="text"
+              id="categoria"
+              name="categoria"
+              value={producto.categoria}
+              onChange={handleChange}
+              required
+            />
           </div>
-          <button type="submit" className="btn-submit">Agregar Producto</button>
+          <button type="submit" className="btn-submit">
+            Agregar Producto
+          </button>
         </form>
       </div>
     </div>

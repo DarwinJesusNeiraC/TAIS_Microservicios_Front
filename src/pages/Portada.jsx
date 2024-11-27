@@ -36,14 +36,6 @@ function Portada() {
               </button>
               <p>Actualiza los ingresos y salidas de los productos.</p>
             </div>
-            <div className="servicios-item">
-              <img src="src/img/imagen_portada.png" alt="Ver" />
-              
-              <button className="btn-funciones" onClick={() => window.location.href = './productos.html'}>
-                Ver Productos
-              </button>
-              <p>Visualiza tus productos</p>
-            </div>
           </div>
         </div>
       </section>

@@ -10,7 +10,6 @@ function ListarProductos() {
   const [error, setError] = useState(null); // Para manejar errores
   const navigate = useNavigate();
 
-
   // Simulación de carga de datos del backend
   useEffect(() => {
     const fetchProductos = async () => {
@@ -20,8 +19,20 @@ function ListarProductos() {
         if (!response.ok) {
           throw new Error('Error al obtener los productos');
         }
-        const data = await response.json();
-        setProductos(data);
+        const responseData = await response.json();
+
+        if (!responseData.success) {
+          throw new Error('El servidor devolvió un error en la respuesta');
+        }
+
+        // Normaliza los datos para garantizar consistencia
+        const productosNormalizados = responseData.data.map((producto) => ({
+          ...producto,
+          precio_unitario: parseFloat(producto.precio_unitario), // Convertir precio a número
+          cantidad: parseFloat(producto.cantidad), // Convertir cantidad a número
+        }));
+
+        setProductos(productosNormalizados);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -42,9 +53,7 @@ function ListarProductos() {
 
   return (
     <div className="containerListar">
-
-    <Navbar />
-
+      <Navbar />
       <h1>Lista de Productos</h1>
       <div className="productos-grid">
         {productos.map((producto, index) => (
@@ -53,19 +62,16 @@ function ListarProductos() {
             <p><strong>Código:</strong> {producto.codigo}</p>
             <p><strong>Descripción:</strong> {producto.descripcion}</p>
             <p><strong>Cantidad:</strong> {producto.cantidad}</p>
-            <p><strong>Precio Unitario:</strong> ${producto.precio_unitario}</p>
+            <p><strong>Precio Unitario:</strong> ${producto.precio_unitario.toFixed(2)}</p>
             <p><strong>Categoría:</strong> {producto.categoria}</p>
             <button
               className="btn-gestionar"
-              //onClick={() => window.location.href = `/producto/${producto.codigo}`}
-              //onClick={() => window.location.href = `/producto/${producto.codigo}?opcion=agregar&cantidad=${producto.cantidad}`}
               onClick={() =>
-                navigate(`/modificar-producto/${producto.codigo}`, 
-                  { state: 
-                    { 
-                      producto 
-                    } 
-                  })
+                navigate(`/modificar-producto/${producto.codigo}`, {
+                  state: {
+                    producto,
+                  },
+                })
               }
             >
               Gestionar Producto

@@ -6,6 +6,7 @@ import ListarProductos from './pages/ListarProductos';
 import ProductoDetalle from './pages/ProductoDetalle';
 import ModificarProducto from './pages/ModificarProducto';
 import ResumenProducto from './pages/ResumenProducto';
+import NotaDetalle from './pages/NotaDetalle';
 
 function App() {
   return (
@@ -16,9 +17,11 @@ function App() {
       {/* Ruta para agregar productos */}
       <Route path="/agregar-producto" element={<AgregarProducto />} />
       <Route path="/listar-productos" element={<ListarProductos />} />
+      <Route path="/nota-detalle" element={<NotaDetalle />} />
       <Route path="/producto/:codigo" element={<ProductoDetalle />} />
       <Route path="/modificar-producto/:codigo" element={<ModificarProducto />} />
       <Route path="/resumen-producto/:codigo" element={<ResumenProducto />} />
+
 
     </Routes>
   );
