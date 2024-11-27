@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Para redirigir después de éxito
 import '../styles/estiloAgregarProducto.css';
 import Navbar from '../components/Navbar';
 import config from '../config'; // Importar la configuración
@@ -15,18 +16,19 @@ function AgregarProducto() {
 
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState(null); // Mensaje de éxito
+  const navigate = useNavigate(); // Hook para redirigir después del éxito
 
   const validateField = (name, value) => {
     let error = '';
     if (name === 'cantidad') {
       const cantidad = Number(value);
-      if (!Number.isInteger(cantidad) || cantidad < 0) {
+      if (!Number.isInteger(cantidad) || cantidad <= 0) {
         error = 'Cantidad debe ser un número entero positivo.';
       }
     }
     if (name === 'precio_unitario') {
       const precio = Number(value);
-      if (precio < 0 || !/^\d+(\.\d{1,2})?$/.test(value)) {
+      if (precio <= 0 || !/^\d+(\.\d{1,2})?$/.test(value)) {
         error = 'Precio unitario debe ser positivo y tener como máximo 2 decimales.';
       }
     }
@@ -80,14 +82,27 @@ function AgregarProducto() {
       const result = await response.json();
 
       if (response.ok && result.success) {
-        const { message, product } = result.data;
+        const { message } = result.data;
 
         // Mostrar mensaje de éxito
         setSuccessMessage(message);
 
-        console.log('Producto creado:', product);
-        alert(message);
-        navigate('/listar-productos');
+        // Limpiar el formulario después de éxito
+        setProducto({
+          codigo: '',
+          nombre: '',
+          descripcion: '',
+          cantidad: '',
+          precio_unitario: '',
+          categoria: '',
+        });
+        setErrors({});
+
+        // Redirigir después de mostrar el mensaje
+        setTimeout(() => {
+          setSuccessMessage(null);
+          navigate('/listar-productos'); // Redirigir a listar productos
+        }, 2000);
       } else if (response.status === 400) {
         console.error('Error 400: Datos inválidos.');
         alert('Error: Datos inválidos. Por favor revisa los campos.');
@@ -189,3 +204,4 @@ function AgregarProducto() {
 }
 
 export default AgregarProducto;
+
